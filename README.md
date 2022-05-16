@@ -55,7 +55,7 @@ The following line can be used to train CodeBERT if the datasets are in a subdir
 
 `python run.py --do_train --do_eval --model_type roberta --model_name_or_path microsoft/codebert-base --dev_filename ./codebertdata/api_validate.jsonl --train_filename ./codebertdata/api_train.jsonl --output_dir ./codebertdata --max_source_length 256 --max_target_length 128 --beam_size 10 --train_batch_size 64 --eval_batch_size 64 --learning_rate 5e-5 --train_steps 100000 --eval_steps 1000`
 
-
+You can adjust the batch size according to the amount of GPU RAM available to you.
 
 
 ## Scripts
