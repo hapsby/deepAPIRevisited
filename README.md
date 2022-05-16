@@ -1,17 +1,66 @@
 # Deep API Learning Revisited
 
-This is the code repository for the Deep API Learning Revisited paper.  The scripts provided
+This is the code repository for the [Deep API Learning Revisited](https://arxiv.org/abs/2205.01254) paper.  The scripts provided
 here are used for collecting and preparing the data sets for the experiments.  The code for
 the actual machine learning is found in separate projects.  The RNN experiment was done using
 the deepAPI project published by Xiaodong Gu, Hongyu Zhang, Dongmei Zhang, and Sunghun Kim: 
 
-[https://github.com/guxd/deepAPI]
+<https://github.com/guxd/deepAPI>
 
 The Transformer experiment was done using the CodeBERT project published by Microsoft:
 
-[https://github.com/microsoft/CodeBERT]
+<https://github.com/microsoft/CodeBERT>
+
+
+## Data set
+
+You can use the scripts in this repository to create the data set (not trivial), or you can
+download the existing data set from [Zenodo](https://zenodo.org/record/6388030).
+
+#### Files used by deepAPI:  
+
+`vocab.apiseq.json`: A JSON file with the vocabulary used in the API sequences.
+
+`vocab.desc.json`: A JSON file with the vocabulary used in the descriptions.
+
+`train.apiseq.h5`: An HDF5 database with all API sequences in the training set.
+
+`test.apiseq.h5`: An HDF5 database with all API sequences in the test set.
+
+`train.desc.h5`: An HDF5 database with all descriptions in the training set.
+
+`test.desc.h5`: An HDF5 database with all descriptions in the test set.
+
+#### Files used by CodeBERT:
+
+`api_train.jsonl`: A JSON file with the entire training set, for use by CodeBERT.
+
+`api_test.jsonl`: A JSON file with the entire test set, for use by CodeBERT.
+
+
+## Experiments
+
+To run the experiment using the deepAPI code, you have to use the fork of the
+deepAPI repository here:
+
+<https://github.com/hapsby/deepAPIPython>
+
+You have to use the fork because the format of the .h5 files is slightly different.
+
+To run the experiment using CodeBERT, you can use this fork of CodeBERT:
+
+<https://github.com/hapsby/CodeBERT-deepAPI>
+
+The following line can be used to train CodeBERT if the datasets are in a subdirectory "codebertdata":
+
+`python run.py --do_train --do_eval --model_type roberta --model_name_or_path microsoft/codebert-base --dev_filename ./codebertdata/api_validate.jsonl --train_filename ./codebertdata/api_train.jsonl --output_dir ./codebertdata --max_source_length 256 --max_target_length 128 --beam_size 10 --train_batch_size 64 --eval_batch_size 64 --learning_rate 5e-5 --train_steps 100000 --eval_steps 1000`
+
+
+
 
 ## Scripts
+
+The scripts in this repository can be used to curate the Python data set.
 
 ### get_list_of_repos.py
 
@@ -93,26 +142,5 @@ Use: `consume_projects.py </path/to/dbs> </path/to/repos>`
 
 This script reads the .7z files that were placed in `</path/to/repos>` by `get_repos.php`
 and outputs the following database files to `</path/to/dbs>`:
-
-#### Files used by deepAPI:  
-
-`vocab.apiseq.json`: A JSON file with the vocabulary used in the API sequences.
-
-`vocab.desc.json`: A JSON file with the vocabulary used in the descriptions.
-
-`train.apiseq.h5`: An HDF5 database with all API sequences in the training set.
-
-`test.apiseq.h5`: An HDF5 database with all API sequences in the test set.
-
-`train.desc.h5`: An HDF5 database with all descriptions in the training set.
-
-`test.desc.h5`: An HDF5 database with all descriptions in the test set.
-
-#### Files used by CodeBERT:
-
-`api_train.jsonl`: A JSON file with the entire training set, for use by CodeBERT.
-
-`api_test.jsonl`: A JSON file with the entire test set, for use by CodeBERT.
-
 
 
